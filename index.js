@@ -3,9 +3,11 @@ const express = require('express')
 const app = express()
 const ejsLayouts = require('express-ejs-layouts')
 const axios = require('axios')
+const db = require('./models')
 
 app.set('view engine', 'ejs')
 app.use(ejsLayouts)
+app.use(express.urlencoded({extended:false}))
 
 // home -> form to input movie title
 app.get('/', (req, res)=>{
@@ -32,7 +34,15 @@ app.get('/movies/:movieId', (req, res)=>{
     })
 })
 
-// TODO: /favorites
+// post this to my faves table
+app.post('/faves', (req, res)=>{
+    console.log("Form data: ", req.body)
+    db.fave.create(req.body)
+    .then(createdFave => {
+        // res.redirect('/faves')
+        res.send(createdFave)
+    })
+})
 
 app.listen(process.env.PORT, ()=>{
     console.log('OMDB API LAB RUNNING ON 8000')

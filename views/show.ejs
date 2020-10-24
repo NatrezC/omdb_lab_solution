@@ -21,3 +21,8 @@ Actors: <%= movie.Actors %>
 Plot:
 <br>
 <%= movie.Plot %>
+<form action="/faves" method="POST">
+    <input type="hidden" name="title" value="<%= movie.Title %>">
+    <input type="hidden" name="imdbid" value="<%= movie.imdbID %>">
+    <input type="submit" value="Add to Favorites">
+</form>
