@@ -37,10 +37,21 @@ app.get('/movies/:movieId', (req, res)=>{
 // post this to my faves table
 app.post('/faves', (req, res)=>{
     console.log("Form data: ", req.body)
-    db.fave.create(req.body)
-    .then(createdFave => {
-        // res.redirect('/faves')
-        res.send(createdFave)
+    db.fave.findOrCreate({
+        where: {title: req.body.title},
+        defaults: {imdbid: req.body.imdbid}
+    })
+    .then(([createdFave, wasCreated]) => {
+        res.redirect('/faves')
+    })
+})
+
+// GET ALL FAVORITES FROM DB
+app.get('/faves', (req, res)=>{
+    db.fave.findAll()
+    .then(favorites=>{
+        // res.send(favorites)
+        res.render('faves', {favorites: favorites})
     })
 })
 
