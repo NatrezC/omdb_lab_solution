@@ -1,0 +1,9 @@
+<h1>MOVIES RESULTS</h1>
+
+<ul>
+    <% results.forEach(result=>{ %>
+        <li>
+            <%= result.Title %> released in <%= result.Year%> <a href="/movies/<%= result.imdbID %>">Read More</a>
+        </li>
+    <% }) %>
+</ul>
